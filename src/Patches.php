@@ -95,7 +95,10 @@ class Patches implements PluginInterface, EventSubscriberInterface {
       $tmp_patches = $this->grabPatches();
       if ($tmp_patches == FALSE) {
         $this->io->write('<info>No patches supplied.</info>');
-        return;
+        $extra = $this->composer->getPackage()->getExtra();
+        if(!isset($extra['enable-patching']) || !$extra['enable-patching']){
+          return;
+        }
       }
 
       foreach ($packages as $package) {
